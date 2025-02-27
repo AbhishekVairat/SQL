@@ -1,0 +1,183 @@
+(base) abhishekvairat@abhisheks-air-2 ~ % mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 13
+Server version: 8.1.0 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> DATA BASES
+    -> CREATE DATABASE GOGO;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'DATA BASES
+CREATE DATABASE GOGO' at line 1
+mysql> create database gogo;
+ERROR 1007 (HY000): Can't create database 'gogo'; database exists
+mysql> database
+    -> clear
+    -> SHOW DATABASES;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'database
+clear
+SHOW DATABASES' at line 1
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| gogo               |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.10 sec)
+
+mysql> CREATE DATABASE ABHI;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| ABHI               |
+| gogo               |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+6 rows in set (0.04 sec)
+
+mysql> USE mydatabase;
+ERROR 1049 (42000): Unknown database 'mydatabase'
+mysql> USE ABHI;
+Database changed
+mysql> CLEAR
+mysql> clear;
+mysql> clear
+mysql> CREATE TABLE books(
+    -> title VARCHAR(50) NOT NULL,
+    -> price INT NOT NULL,
+    -> language VARCHAR(50) DEFAULT "ENGLISH" , 
+    -> author VARCHAR(60) NOT NULL);
+Query OK, 0 rows affected (0.15 sec)
+
+mysql> DESCRIBE books;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| title    | varchar(50) | NO   |     | NULL    |       |
+| price    | int         | NO   |     | NULL    |       |
+| language | varchar(50) | YES  |     | ENGLISH |       |
+| author   | varchar(60) | NO   |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+4 rows in set (0.05 sec)
+
+mysql> CREATE TABLE student(
+    -> student_id INT PRIMARY KEY,
+    -> name VARCHAR(20),
+    -> major VARCHAR(20),
+    -> PRIMARY KEY(student_id));
+ERROR 1068 (42000): Multiple primary key defined
+mysql> CREATE TABLE student( student_id INT PRIMARY KEY, name VARCHAR(20), major VARCHAR(20));
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> DESCRIBE student;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| student_id | int         | NO   | PRI | NULL    |       |
+| name       | varchar(20) | YES  |     | NULL    |       |
+| major      | varchar(20) | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+3 rows in set (0.05 sec)
+
+mysql> INSER INTO student VALUE("100", ravi, bio);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'INSER INTO student VALUE("100", ravi, bio)' at line 1
+mysql> INSER INTO student VALUE("100", "RAVI", "BIOLOGY");
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'INSER INTO student VALUE("100", "RAVI", "BIOLOGY")' at line 1
+mysql> INSER INTO student VALUE(100, "RAVI", "BIOLOGY");
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'INSER INTO student VALUE(100, "RAVI", "BIOLOGY")' at line 1
+mysql> INSERT INTO student VALUE(100, "RAVI", "BIOLOGY");
+Query OK, 1 row affected (0.06 sec)
+
+mysql> SELECT * FROM student;
++------------+------+---------+
+| student_id | name | major   |
++------------+------+---------+
+|        100 | RAVI | BIOLOGY |
++------------+------+---------+
+1 row in set (0.01 sec)
+
+mysql> INSERT INTO student(student_id, name) VALUES(1, 'Jack');
+ERROR 4031 (HY000): The client was disconnected by the server because of inactivity. See wait_timeout and interactive_timeout for configuring this behavior.
+No connection. Trying to reconnect...
+Connection id:    14
+Current database: ABHI
+
+Query OK, 1 row affected (0.17 sec)
+
+mysql> INSERT INTO student VALUES(2, 'kate', 'Sociology');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO student VALUES(3, NULL, 'Chemistry');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO student VALUES(4, 'Jack', 'Biology');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO student VALUES(4, 'Jack', 'Biology');
+mysql> INSERT INTO student VALUES(5, 'Mike', 'CS');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM student;
++------------+------+-----------+
+| student_id | name | major     |
++------------+------+-----------+
+|          1 | Jack | NULL      |
+|          2 | kate | Sociology |
+|          3 | NULL | Chemistry |
+|          4 | Jack | Biology   |
+|          5 | Mike | CS        |
+|        100 | RAVI | BIOLOGY   |
++------------+------+-----------+
+6 rows in set (0.00 sec)
+
+mysql> UPDATE student 
+    -> SET major = 'Bio'
+    -> WHERE major = 'Biology';
+Query OK, 2 rows affected (0.01 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> SELECT * FROM student;
++------------+------+-----------+
+| student_id | name | major     |
++------------+------+-----------+
+|          1 | Jack | NULL      |
+|          2 | kate | Sociology |
+|          3 | NULL | Chemistry |
+|          4 | Jack | Bio       |
+|          5 | Mike | CS        |
+|        100 | RAVI | Bio       |
++------------+------+-----------+
+6 rows in set (0.01 sec)
+mysql> UPDATE student  SET major = 'CS' WHERE student_id = 4;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+mysql> SELECT * FROM student;
++------------+------+-----------+
+| student_id | name | major     |
++------------+------+-----------+
+|          1 | Jack | NULL      |
+|          2 | kate | Sociology |
+|          3 | NULL | Chemistry |
+|          4 | Jack | CS        |
+|          5 | Mike | CS        |
+|        100 | RAVI | Bio       |
++------------+------+-----------+
+6 rows in set (0.00 sec)
+
